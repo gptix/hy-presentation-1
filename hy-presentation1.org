@@ -1,0 +1,407 @@
+* Why oh Hy?
+** Prelude
+This presentation will discuss Hy and give some examples of use.
+- What is Hy?
+- Why might coders want to use Hy?
+- Generally, how does Hy work?
+- A very rapid walkthrough
+  - Basics: Data, basic patterns
+  - An overview of what hy does
+** Lisp to Python's AST
+Hy is a Lisp that compiles to Python's Abstract Syntax Tree.
+From that AST code, Python interprets or compiles normally.
+This allows Hy code and Python code to be used in each other.
+** Why use Hy?
+- Lispers might prefer thinking in a Lispy way while **gaining Python's ecosystem**.
+  - Numpy
+  - Scikit-learn
+  - Keras
+  - Tensorflow
+  - Flask
+- Pythonistas might like to use a python code base, and learn Lisp idioms by porting.
+- Hy can be used to extend the syntax of normal Python, and, since Hy compiles to Python AST code, it works.
+- Hy has 'defmacro', so it can be used to build boilerplate Python AST code based on a small number of parameters - CODE WRITING CODE.
+** An overview of what Hy does
+*** Hy 
+  - Reads in code written in a Lispy syntax, contained in *foo.hy* files.
+  - Tokenizes it into a Hy AST
+  - Transforms that AST into an equivalent Python AST
+  - (And this Python AST can be interpreted or compiled into Python byte code).
+*** Hy code can
+- make use of Python modules
+- evaluate Pythonic code
+*** By including Hy in a Python file
+- Python code can make use of Hy modules, using normal Python syntax.
+- Python code can evalute Hy code
+*The Big Thing* This is Fully Round Trip
+** How do I use it?
+*** Get it
+$ mkdir myhy
+$ chdir myhy
+$ pipenv shell
+$ pipenv install hy
+*** Use a REPL 
+$ hy
+hy 0.19.0 using CPython 3.7.6 on Linux
+=> 
+
+*Note:* By default, representation of evaluations at the REPL are made in Python style.
+To see representations in Hy style, 
+$ hy --repl-output-fn=hy.contrib.hy-repr.hy-repr
+
+> 'hello'
+hello
+*** Examples
+**** ¡Hola, Amigos!
+ ;; equivalent to    print("¡Hola, Amigos!")
+ (print "¡Hola, Amigos!")
+**** Binding
+***** Data 
+ ;; equivalent to    foo = 17
+
+ (setv foo 17)
+***** Function (I know, I know)
+ ;; equivalent to
+ ;;def boo():
+ ;;    print("OMIGOSH!")
+ ;;    return
+
+ (defn boo []
+   (print "OMIGOSH!"))
+
+ ;; equivalent to
+ ;;def many-boos(x):
+ ;;    for i in range(x):
+ ;;        print("OMG!")
+ ;;    return
+
+ (defn manyboos [x]
+   (for [x (range x)]
+     (boo)))
+**** Interlude - Built in Data Types
+ | Type     | Python         | Hy         | Note                        |
+ |----------+----------------+------------+-----------------------------|
+ | int      | 1              | 1          |                             |
+ | float    | 1.2            | 1.2        |                             |
+ | complex  | 4j             | 4j         |                             |
+ | bool     | True           | True       |                             |
+ | NoneType | None           | None       |                             |
+ | str      | 'hy'           | "hy"       | -- hy uses doublequotes     |
+ | bytes    | b'hy'          | b"hy"      |                             |
+ | tuple    | (1, 2, 3)      | (, 1 2 3)  | -- hy uses leading comma    |
+ | list     | [1, 2, 3]      | [1 2 3]    | -- hy does not use commas   |
+ | set      | {1, 2, 3}      | #{1 2 3}   | -- # sign                   |
+ | dict     | {1: 2, 3: 4}   | {1 2  3 4} | -- two spaces btwn kv pairs |
+ | fraction | Fraction(1, 3) | 1/3        | -- Hy reads 1/3             |
+
+**** Snippets
+***** Classes
+****** Define a class
+Definition of classes is a straightforward translation from Python syntax.
+
+ (defclass BigSur []
+   (defn __init__ [self x]
+     (setv self.x x))
+   (defn get-x [self]
+     self.x))
+****** Instantiate an object
+(setv bar (BigSur 17))
+****** Access attributes
+******* Using the actual symbol-name of an object
+bar.x        ; evals to 17
+
+(bar.get-x)
+******* Using the actual symbol-name, 
+(. bar x)
+
+(.get-x bar)
+******* or a form that evaluates to an object
+These can be used if the identity of the form to be queried is a parameter.
+
+(. (gimme-object baz) x)
+
+(.get-x (gimme-object baz))
+***** Functions
+****** Named functions
+******* Python
+def boo():
+    print("OMIGOSH!")
+    return
+******* Hy
+(defn boo []
+  (print "OMIGOSH!"))
+
+This demonstrates use of a parameter, and the use of a 'for' loop.
+******* Python
+def many-boos(x):
+    for i in range(x):
+        boo()
+    return
+******* Hy
+(defn many-boos [x]
+  (for [i (range x)]
+    (boo)))
+
+****** Anonymous functions
+Anonymous functions in Hy can be arbitrarily complex, unlike `lamba`s in Python.
+
+(list (map (fn [x] (+ 1 x)) [1 2 3]))
+
+;; returns [2 3 4]
+
+***** Conditionals
+****** `if`, et cetera
+Important: By default, Pythonic Truthiness is used.
+0, length of 0, False, and None -> Falsy
+This can be overcome in a variety of ways (lif, __bool__)
+
+> (setv foo True)
+
+> foo
+;; Returns True
+
+(setv bar 0)
+
+>bar
+;; Returns 0
+
+;; Since bar = 0, which in Python is 'Falsy', the first *test/do* clause fill be bypassed.
+:: Since *foo* is *True*, the second do clause will be accepted.
+
+(if bar "first one" 
+    foo  "second one")
+
+"second one"
+
+If no test is Truthy, `None` is returned.
+
+*Also available:*
+- if-not
+- if* (only one conditional test/success pair)
+- lif (Lispy if, False only on None   --   EVEN `False` is Truthy here)
+- lnif
+
+****** cond
+cond creates nested if expressions. For each condition, if True,
+the associated form is evaluated, and if the predicate is false, 
+the 'else' action is to move to the next test.
+Evaluation 'short-circuits' at this point, and the cond expression 
+exits.
+
+A straaightforward macro to write would be 'case', which would
+test one value against a series of tests.
+
+(setv foo 1 bar 2 baz 3)
+(cond [(< 100 1)   (print "not here")]
+      [(< 100 200) (print "here")]
+      [(< 100 500) (print "Never here")])
+
+***** Code blocks 
+****** `do`
+`do` can be used to gather a number of forms to be executed as a block, like
+ *progn* in Common Lisp.
+
+This is handy for conditionals, for cases in which a true evaluation should 
+trigger a series of expressions to be evaluated.
+
+(if foo
+  (do (print 100)
+  (print 200))
+    (do (print 300)
+        (print 400)))
+
+****** `let`
+A *let* form creates a scope for bindings.  Bindings made inside the let
+form shadow earlier bindings, and are removed when the *let* form is exited.
+
+Note: `let` in Hy binds symbol-value pairs in SERIES, like `let*` in CL.
+
+Note: In the current version of Hy, *let* is in a contributed module, so we need to do:
+
+(require [hy.contrib.walk [let]])
+
+(setv foo 3)
+
+(let [foo 5 bar 7]
+  (print (+ foo 100))) 
+
+(print foo)
+
+***** Interoperabiluty with Python
+****** Python in Hy
+(import [numpy :as np]
+        [pandas :as pd]
+        [math :as torture])
+
+;; Here, the dot is used to divide the module name from the function 
+;; defined within that module.
+
+(torture.cos 2)
+-0.4161468365471424
+
+;; Aternative format
+=> (.cos torture 2)
+-0.4161468365471424
+
+;; Individual functions
+=> (import [math [cos]])
+=> (cos 2)
+-0.4161468365471424
+
+****** Hy in Python
+
+import hy     # do this first
+import my-hy-module as baz
+;; Some function foo is defined in the module my-hy-module.hy
+zog = baz.foo(bar)
+
+***** MACROS
+Macros are my favorite part of Lisp. They allow the full power of a Lisp 
+language to be used at compile time to build code to be executed at run time.
+
+The full power of macros is well beyond the scope or time of this talk.
+
+Two uses of macros that should be of immediately useful:
+
+****** Extension of syntax of a language
+A great example of this is the implementation of the `walrus` operator, 
+which was only added to Python in 3.8.
+
+The walrus operator, `:=`, both assigns a value to a variable, and returns that value.
+
+foo = 3
+returns 'None'
+
+(foo := 3)
+both sets foo to 3, and returns the value 3 for use in surrounding code.
+
+This is trivially achieved in Hy.
+(defmacro walrus [symb val]
+  `(setv ~symb ~val))
+
+then, in python
+from my-module import walrus
+
+print(f"The value is {walrus(foo 3)}.")
+print(f"I said, {foo}!")
+
+should work.
+
+****** Parameterize and simplify recurring code 
+ In particular, I enjoy parameterizing creation of construction of Class definitions.
+
+ (defmacro 
+
+***** Functionalism
+Hy is indeed a real lisp, and can be used in functional style.
+The three classic higher-order functions:
+****** Map
+*map* applies one function to each element of an iterable data structure.
+
+;; Sample function to use in map
+(defn foofun [x]
+  (+ x 100))
+
+;; This maps the function `foofun` across `xs`
+;; and returns a *map* object.
+(defn foomap [xs]
+  (map foofun xs))
+
+;; *list* can create a list from a *map* object.
+(list (foomap [23 24 25]))
+
+****** Filter
+;; Simple function to use in filter.
+(defn fizzy? [x]
+  (zero? (% x 3)))
+
+;; Returns a list of xs that are fizzy.
+(defn fizzies [xs]
+  (list (filter fizzy? xs)))
+
+****** Reduce
+;; Returns the total fizziness of a list of numbers.
+;; parameters are function, applicands, initial.
+(defn fizziness [xs]
+  (reduce + (fizzies xs) []))
+
+***** Interopability with Python
+The files
+- test-interop.hy
+- hytest.pyp
+
+Show 
+- Inclusion of Python modules in Hy code
+- Inclusion of Hy modules in Python code
+
+* In summary
+We have discussed, and used relevant code, regarding:
+- What Hy is
+- Why coders might want to use Hy, whether Lispers, Pythonistas, or other
+- An overview about how Hy works
+- How to install it
+- Use Hy from a REPL
+- Data Types
+- Walked though aspects of Hy language
+  - data types, structures, classes
+  - macros
+  - functional programming in Hy
+- Demonstrated interopability between Hy code and Python code
+
+* Further 
+Hy has been around since 2012, and has more that could be
+demonstrated in this talk.
+
+- the threader macros
+- -> takes a series of expressions and
+      - evaluates one
+      - feeds the evaluation of the that one  as the first parameter value to the next
+      - returns the output of the last.
+
+- ->> is like ->, but feeds the output of each as the *last* parameter value to the next
+
+- tag macros
+
+A way to make syntactic sugar. Single-input macros can be associated with any one character,
+and called without any enclosing parentheses.
+
+Don't worry, any unicode character will do, so there are plenty.
+
+- anaphoric macros
+
+* Resources
+
+** Basics
+Docs, Intro: https://docs.hylang.org/en/stable/ 
+PyPI:	https://pypi.python.org/pypi/hy
+Source:	https://github.com/hylang/hy
+List:	hylang-discuss
+IRC:	irc://chat.freenode.net/hy
+Stack Overflow:	The [hy] tag
+
+** Hy code contributed to get closer to CL
+Module that adds many things from CL https://github.com/riktor/hycl/blob/master/hycl/core.hy
+
+** Videos: 
+
+October 2016
+A Talk About Hy
+Chris McCormick 
+https://www.youtube.com/watch?v=iOMvkSrPWhk
+
+2014 
+Paul Tagliamonte
+https://www.youtube.com/watch?v=AmMaN1AokTI&t=151s
+
+May 9, 2013 
+ChiPy - Christopher Webber
+https://www.youtube.com/watch?v=SB9TWabor1k
+
+** Book
+A Lisp Programmer Living in Python-Land: The Hy Programming Language
+https://leanpub.com/hy-lisp-python
+* My Points of Contact:
+~habnus-dovres
+gptix@protonmail.com
+@gptix on twitter
+gptix on github
