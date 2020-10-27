@@ -138,12 +138,15 @@ def many-boos(x):
 ***** Classes
 ****** Define a class
 Definition of classes is a straightforward translation from Python syntax.
-
- (defclass BigSur []
-   (defn __init__ [self x]
-     (setv self.x x))
-   (defn get-x [self]
-     self.x))
+#+NAME: Class definition in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(defclass BigSur []
+  (defn __init__ [self x]
+    (setv self.x x))
+  (defn get-x [self]
+    self.x))
+#+END_SRC
 ****** Instantiate an object
 (setv bar (BigSur 17))
 ****** Access attributes
