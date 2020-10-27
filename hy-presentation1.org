@@ -86,16 +86,21 @@ foo = 17
 ;; In Hy
 (setv foo 17)
 #+END_SRC
-
-
 ***** Function (I know, I know)
- ;; equivalent to
- ;;def boo():
- ;;    print("OMIGOSH!")
- ;;    return
+#+NAME: function definition in Python
+#+BEGIN_SRC python
+# In Python
+def boo():
+    print("OMIGOSH!")
+    return
+#+END_SRC
+#+NAME: function definition in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(defn boo []
+  (print "OMIGOSH!"))
+#+END_SRC
 
- (defn boo []
-   (print "OMIGOSH!"))
 
  ;; equivalent to
  ;;def many-boos(x):
