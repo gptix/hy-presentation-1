@@ -68,7 +68,7 @@ hello
 # In Python
     print("¡Hola, Amigos!")
 #+END_SRC
-#+BEGIN_SRC hy
+#+BEGIN_SRC clojure
 ;; In Hy
 print("¡Hola, Amigos!")
 #+END_SRC
