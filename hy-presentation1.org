@@ -63,11 +63,12 @@ hello
 #+END_SRC
 *** Examples
 **** ¡Hola, Amigos!
-#+NAME: ¡Hola, Amigos!
+#+NAME: ¡Hola, Amigos! Python
 #+BEGIN_SRC python
 # In Python
-    print("¡Hola, Amigos!")
+print("¡Hola, Amigos!")
 #+END_SRC
+#+NAME: ¡Hola, Amigos! Hy
 #+BEGIN_SRC hy
 ;; In Hy
 (print "¡Hola, Amigos!")
@@ -75,9 +76,18 @@ hello
 
 **** Binding
 ***** Data 
- ;; equivalent to    foo = 17
+#+NAME: assignment in Python
+#+BEGIN_SRC python
+# In Python
+foo = 17
+#+END_SRC
+#+NAME: assignment in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(setv foo 17)
+#+END_SRC
 
- (setv foo 17)
+
 ***** Function (I know, I know)
  ;; equivalent to
  ;;def boo():
