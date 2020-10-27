@@ -101,16 +101,23 @@ def boo():
   (print "OMIGOSH!"))
 #+END_SRC
 
+#+NAME: function with a parameter in Python
+#+BEGIN_SRC python
+# In Python
+def many-boos(x):
+    for i in range(x):
+        boo()
+    return
+#+END_SRC
 
- ;; equivalent to
- ;;def many-boos(x):
- ;;    for i in range(x):
- ;;        print("OMG!")
- ;;    return
+#+NAME: function definition with parameter in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(defn manyboos [x]
+  (for [x (range x)]
+    (boo)))
+#+END_SRC
 
- (defn manyboos [x]
-   (for [x (range x)]
-     (boo)))
 **** Interlude - Built in Data Types
  | Type     | Python         | Hy         | Note                        |
  |----------+----------------+------------+-----------------------------|
