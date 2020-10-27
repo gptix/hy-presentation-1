@@ -45,7 +45,7 @@ $ pipenv install hy
 #+END_SRC
 
 *** Use a REPL 
-#+NAME: install Hy
+#+NAME: Use Hy in a REPL
 #+BEGIN_SRC sh
 $ hy
 hy 0.19.0 using CPython 3.7.6 on Linux
@@ -55,7 +55,7 @@ hy 0.19.0 using CPython 3.7.6 on Linux
 *Note:* By default, representation of evaluations at the REPL are made in Python style.
 To see representations in Hy style, 
 $ hy --repl-output-fn=hy.contrib.hy-repr.hy-repr
-#+NAME: install Hy
+#+NAME: 'Hello' at REPL
 #+BEGIN_SRC hy
 > 'hello'
 hello
@@ -63,8 +63,16 @@ hello
 #+END_SRC
 *** Examples
 **** ¡Hola, Amigos!
- ;; equivalent to    print("¡Hola, Amigos!")
- (print "¡Hola, Amigos!")
+#+NAME: ¡Hola, Amigos!
+#+BEGIN_SRC python
+# In Python
+    print("¡Hola, Amigos!")
+#+END_SRC
+#+BEGIN_SRC hy
+;; In Hy
+print("¡Hola, Amigos!")
+#+END_SRC
+
 **** Binding
 ***** Data 
  ;; equivalent to    foo = 17
