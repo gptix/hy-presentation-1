@@ -53,8 +53,15 @@ hy 0.19.0 using CPython 3.7.6 on Linux
 #+END_SRC
 
 *Note:* By default, representation of evaluations at the REPL are made in Python style.
+
 To see representations in Hy style, 
+#+NAME: REPL print in Hy syntax
+#+BEGIN_SRC sh
 $ hy --repl-output-fn=hy.contrib.hy-repr.hy-repr
+=> 
+#+END_SRC
+
+
 #+NAME: 'Hello' at REPL
 #+BEGIN_SRC hy
 > 'hello'
@@ -119,20 +126,20 @@ def many-boos(x):
 #+END_SRC
 
 **** Interlude - Built in Data Types
- | Type     | Python         | Hy         | Note                        |
- |----------+----------------+------------+-----------------------------|
- | int      | 1              | 1          |                             |
- | float    | 1.2            | 1.2        |                             |
- | complex  | 4j             | 4j         |                             |
- | bool     | True           | True       |                             |
- | NoneType | None           | None       |                             |
- | str      | 'hy'           | "hy"       | -- hy uses doublequotes     |
- | bytes    | b'hy'          | b"hy"      |                             |
- | tuple    | (1, 2, 3)      | (, 1 2 3)  | -- hy uses leading comma    |
- | list     | [1, 2, 3]      | [1 2 3]    | -- hy does not use commas   |
- | set      | {1, 2, 3}      | #{1 2 3}   | -- # sign                   |
- | dict     | {1: 2, 3: 4}   | {1 2  3 4} | -- two spaces btwn kv pairs |
- | fraction | Fraction(1, 3) | 1/3        | -- Hy reads 1/3             |
+ | Type     | Python         | Hy           | Note                        |
+ |----------+----------------+--------------+-----------------------------|
+ | int      | 1              | 1            |                             |
+ | float    | 1.2            | 1.2          |                             |
+ | complex  | 4j             | 4j           |                             |
+ | bool     | True           | True         |                             |
+ | NoneType | None           | None         |                             |
+ | str      | 'hy'           | "hy"         | -- hy uses doublequotes     |
+ | bytes    | b'hy'          | b"hy"        |                             |
+ | tuple    | (1, 2, 3)      | (, 1 2 3)    | -- hy uses leading comma    |
+ | list     | [1, 2, 3]      | [1 2 3]      | -- hy does not use commas   |
+ | set      | {1, 2, 3}      | #{1 2 3}     | -- # sign                   |
+ | dict     | {1: 2, 3: 4}   | {1 2    3 4} | -- two spaces btwn kv pairs |
+ | fraction | Fraction(1, 3) | 1/3          | -- Hy reads 1/3             |
 
 **** Snippets
 ***** Classes
@@ -148,16 +155,34 @@ Definition of classes is a straightforward translation from Python syntax.
     self.x))
 #+END_SRC
 ****** Instantiate an object
+#+NAME: Object instantiation in Hy
+#+BEGIN_SRC hy
+;; In Hy
 (setv bar (BigSur 17))
+#+END_SRC
 ****** Access attributes
 ******* Using the actual symbol-name of an object
+#+NAME: object-dot-attribute in Hy
+#+BEGIN_SRC hy
+;; In Hy
 bar.x        ; evals to 17
-
-(bar.get-x)
+#+END_SRC
+#+NAME: object-dot-get-hyphen-attribute in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(bar.get-x)  ; evals to 17
+#+END_SRC
 ******* Using the actual symbol-name, 
-(. bar x)
-
-(.get-x bar)
+#+NAME: dot-attribute-object in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(. bar x)    ; evals to 17
+#+END_SRC
+#+NAME: get-hyphen-attribute-object in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(.get-x bar) ; evals to 17
+#+END_SRC
 ******* or a form that evaluates to an object
 These can be used if the identity of the form to be queried is a parameter.
 
@@ -171,32 +196,40 @@ def boo():
     print("OMIGOSH!")
     return
 ******* Hy
+#+NAME: named function in Hy
+#+BEGIN_SRC hy
+;; In Hy
 (defn boo []
   (print "OMIGOSH!"))
-
-This demonstrates use of a parameter, and the use of a 'for' loop.
+#+END_SRC
 ******* Python
 def many-boos(x):
     for i in range(x):
         boo()
     return
 ******* Hy
+#+NAME: function with parameter and a for loop
+#+BEGIN_SRC hy
+;; In Hy
+;; This demonstrates use of a parameter, and the use of a 'for' loop.
 (defn many-boos [x]
   (for [i (range x)]
     (boo)))
-
+#+END_SRC
 ****** Anonymous functions
 Anonymous functions in Hy can be arbitrarily complex, unlike `lamba`s in Python.
-
-(list (map (fn [x] (+ 1 x)) [1 2 3]))
-
-;; returns [2 3 4]
-
+#+NAME: anonymous function in Hy
+#+BEGIN_SRC hy
+;; In Hy
+;; Anonymous functions start with *fn* symbol
+(list (map (fn [x] (+ 10 x)) [1 2 3]))
+;; returns [11 12 13]
+#+END_SRC
 ***** Conditionals
 ****** `if`, et cetera
 Important: By default, Pythonic Truthiness is used.
 0, length of 0, False, and None -> Falsy
-This can be overcome in a variety of ways (lif, __bool__)
+This can be overcome in a variety of ways (`lif`, `__bool__`)
 
 > (setv foo True)
 
