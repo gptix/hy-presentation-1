@@ -244,6 +244,7 @@ This can be overcome in a variety of ways (`lif`, `__bool__`)
 ;; returns "second one"
 #+END_SRC
 If no test is Truthy, `None` is returned.
+
 *Also available:*
 - if-not
 - if* (only one conditional test/success pair)
@@ -256,14 +257,18 @@ the 'else' action is to move to the next test.
 Evaluation 'short-circuits' at this point, and the cond expression 
 exits.
 
-A straaightforward macro to write would be 'case', which would
-test one value against a series of tests.
+(A straightforward macro to write would be 'case', which would
+test one value against a series of tests.)
 
-(setv foo 1 bar 2 baz 3)
+#+NAME: anonymous function in Hy
+#+BEGIN_SRC hy
+;; In Hy
+;; Cond in Hy
 (cond [(< 100 1)   (print "not here")]
       [(< 100 200) (print "here")]
       [(< 100 500) (print "Never here")])
-
+;; Returns "here"
+#+END_SRC
 ***** Code blocks 
 ****** `do`
 `do` can be used to gather a number of forms to be executed as a block, like
