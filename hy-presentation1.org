@@ -75,12 +75,12 @@ hello
 # In Python
 print("¡Hola, Amigos!")
 #+END_SRC
+
 #+NAME: ¡Hola, Amigos! Hy
 #+BEGIN_SRC hy
 ;; In Hy
 (print "¡Hola, Amigos!")
 #+END_SRC
-
 **** Binding
 ***** Data 
 #+NAME: assignment in Python
@@ -88,6 +88,7 @@ print("¡Hola, Amigos!")
 # In Python
 foo = 17
 #+END_SRC
+
 #+NAME: assignment in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -101,6 +102,7 @@ def boo():
     print("OMIGOSH!")
     return
 #+END_SRC
+
 #+NAME: function definition in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -124,7 +126,6 @@ def many-boos(x):
   (for [x (range x)]
     (boo)))
 #+END_SRC
-
 **** Interlude - Built in Data Types
  | Type     | Python         | Hy           | Note                        |
  |----------+----------------+--------------+-----------------------------|
@@ -167,6 +168,7 @@ Definition of classes is a straightforward translation from Python syntax.
 ;; In Hy
 bar.x        ; evals to 17
 #+END_SRC
+
 #+NAME: object-dot-get-hyphen-attribute in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -178,17 +180,28 @@ bar.x        ; evals to 17
 ;; In Hy
 (. bar x)    ; evals to 17
 #+END_SRC
+
 #+NAME: get-hyphen-attribute-object in Hy
 #+BEGIN_SRC hy
 ;; In Hy
 (.get-x bar) ; evals to 17
 #+END_SRC
 ******* or a form that evaluates to an object
-These can be used if the identity of the form to be queried is a parameter.
+These can be used if the identity of the form to be queried will be the result of a function.
+#+NAME: get-hyphen-attribute-object in Hy
+#+BEGIN_SRC hy
+;; In Hy
+(.get-x bar) ; evals to 17
+#+END_SRC
 
+#+NAME: object is result of evaluation
+#+BEGIN_SRC hy
+;; In Hy
 (. (gimme-object baz) x)
-
+;; or
 (.get-x (gimme-object baz))
+#+END_SRC
+
 ***** Functions
 ****** Named functions
 ******* Python
@@ -217,7 +230,7 @@ def many-boos(x):
     (boo)))
 #+END_SRC
 ****** Anonymous functions
-Anonymous functions in Hy can be arbitrarily complex, unlike `lamba`s in Python.
+Anonymous functions in Hy can be arbitrarily complex, unlike *lambda*s in Python.
 #+NAME: anonymous function in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -227,7 +240,7 @@ Anonymous functions in Hy can be arbitrarily complex, unlike `lamba`s in Python.
 #+END_SRC
 ***** Conditionals
 ****** `if`, et cetera
-*Important:* By default, Pythonic Truthiness is used.
+*Note:* By default, Pythonic Truthiness is used.
 0, length of 0, False, and None -> Falsy
 This can be overcome in a variety of ways (`lif`, `__bool__`)
 #+NAME: function with parameter and a for loop
@@ -340,8 +353,6 @@ import my-hy-module as baz
 # Some function foo is defined in the module my-hy-module.hy
 zog = baz.foo(bar)
 #+END_SRC
-
-
 ***** MACROS
 Macros are my favorite part of Lisp. They allow the full power of a Lisp 
 language to be used at compile time to build code to be executed at run time.
@@ -349,7 +360,6 @@ language to be used at compile time to build code to be executed at run time.
 The full power of macros is well beyond the scope or time of this talk.
 
 Two uses of macros that should be of immediately useful:
-
 ****** Extension of syntax of a language
 A great example of this is the implementation of the `walrus` operator, 
 which was only added to Python in 3.8.
@@ -367,8 +377,12 @@ foo = 3
 #+END_SRC
 
 This is trivially achieved in Hy.
+#+NAME: walrus operator in Hy
+#+BEGIN_SRC hy
+;; In Hy
 (defmacro walrus [symb val]
   `(setv ~symb ~val))
+#+END_SRC
 
 then, in python
 #+NAME: Assignment returns None in Python
@@ -378,7 +392,6 @@ from my-module import walrus
 
 print(f"The value is {walrus(foo 3)}.")
 print(f"I said, {foo}!")
-
 #+END_SRC
 should work.
 ****** Parameterize and simplify recurring code 
@@ -431,7 +444,7 @@ The three classic higher-order functions:
 ***** Interopability with Python
 The files
 - test-interop.hy
-- hytest.pyp
+- hytest.py
 
 Show 
 - Inclusion of Python modules in Hy code
@@ -450,7 +463,6 @@ We have discussed, and used relevant code, regarding:
   - macros
   - functional programming in Hy
 - Demonstrated interopability between Hy code and Python code
-
 * Further 
 Hy has been around since 2012, and has more that could be
 demonstrated in this talk.
@@ -471,9 +483,7 @@ and called without any enclosing parentheses.
 Don't worry, any unicode character will do, so there are plenty.
 
 - anaphoric macros
-
 * Resources
-
 ** Basics
 Docs, Intro: https://docs.hylang.org/en/stable/ 
 PyPI:	https://pypi.python.org/pypi/hy
@@ -504,7 +514,10 @@ https://www.youtube.com/watch?v=SB9TWabor1k
 A Lisp Programmer Living in Python-Land: The Hy Programming Language
 https://leanpub.com/hy-lisp-python
 * My Points of Contact:
-~habnus-dovres
-gptix@protonmail.com
-@gptix on twitter
-gptix on github
+- ~habnus-dovres
+
+- gptix@protonmail.com
+
+- @gptix on twitter
+
+- gptix on github
