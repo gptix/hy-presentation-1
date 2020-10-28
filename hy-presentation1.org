@@ -233,12 +233,11 @@ This can be overcome in a variety of ways (`lif`, `__bool__`)
 #+NAME: function with parameter and a for loop
 #+BEGIN_SRC hy
 ;; In Hy
-;; This demonstrates use of a parameter, and the use of a 'for' loop.
 (setv foo True)
 (setv bar 0)
 
 ;; Since bar = 0, which in Python is 'Falsy', the first *test/do* clause fill be bypassed.
-:: Since *foo* is *True*, the second do clause will be accepted.
+;; Since *foo* is *True*, the second do clause will be accepted.
 (if bar "first one" 
     foo  "second one")
 
