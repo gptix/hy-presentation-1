@@ -121,20 +121,20 @@ def many-boos(x):
     (boo)))
 #+END_SRC
 **** Interlude - Built in Data Types
- | Type     | Python         | Hy           | Note                                                     |
- |----------+----------------+--------------+----------------------------------------------------------|
- | int      | 1              | 1            |                                                          |
- | float    | 1.2            | 1.2          |                                                          |
- | complex  | 4j             | 4j           |                                                          |
- | bool     | True           | True         |                                                          |
- | NoneType | None           | None         |                                                          |
- | str      | 'hy'           | "hy"         | -- hy uses doublequotes                                  |
- | bytes    | b'hy'          | b"hy"        |                                                          |
- | tuple    | (1, 2, 3)      | (, 1 2 3)    | -- hy uses leading comma                                 |
- | list     | [1, 2, 3]      | [1 2 3]      | -- hy does not use commas                                |
- | set      | {1, 2, 3}      | #{1 2 3}     | -- # sign                                                |
- | dict     | {1: 2, 3: 4}   | {1 2    3 4} | -- two spaces btwn kv pairs (markdown does not show this |
- | fraction | Fraction(1, 3) | 1/3          | -- Hy reads 1/3                                          |
+ | Type     | Python         | Hy           | Note                                                      |
+ |----------+----------------+--------------+-----------------------------------------------------------|
+ | int      | 1              | 1            |                                                           |
+ | float    | 1.2            | 1.2          |                                                           |
+ | complex  | 4j             | 4j           |                                                           |
+ | bool     | True           | True         |                                                           |
+ | NoneType | None           | None         |                                                           |
+ | str      | 'hy'           | "hy"         | -- hy uses doublequotes                                   |
+ | bytes    | b'hy'          | b"hy"        |                                                           |
+ | tuple    | (1, 2, 3)      | (, 1 2 3)    | -- hy uses leading comma                                  |
+ | list     | [1, 2, 3]      | [1 2 3]      | -- hy does not use commas                                 |
+ | set      | {1, 2, 3}      | #{1 2 3}     | -- # sign                                                 |
+ | dict     | {1: 2, 3: 4}   | {1 2    3 4} | -- two spaces btwn kv pairs (markdown does not show this) |
+ | fraction | Fraction(1, 3) | 1/3          | -- Hy reads 1/3                                           |
 
 **** Snippets
 ***** Classes
