@@ -354,26 +354,33 @@ Two uses of macros that should be of immediately useful:
 A great example of this is the implementation of the `walrus` operator, 
 which was only added to Python in 3.8.
 
-The walrus operator, `:=`, both assigns a value to a variable, and returns that value.
+The walrus operator, *:=*, both assigns a value to a variable, and returns that value.
 
+#+NAME: Assignment returns None in Python
+#+BEGIN_SRC python
+# In Python
 foo = 3
-returns 'None'
+#returns 'None'
 
 (foo := 3)
-both sets foo to 3, and returns the value 3 for use in surrounding code.
+# both sets foo to 3, and returns the value 3 for use in surrounding code.
+#+END_SRC
 
 This is trivially achieved in Hy.
 (defmacro walrus [symb val]
   `(setv ~symb ~val))
 
 then, in python
+#+NAME: Assignment returns None in Python
+#+BEGIN_SRC python
+# In Python
 from my-module import walrus
 
 print(f"The value is {walrus(foo 3)}.")
 print(f"I said, {foo}!")
 
+#+END_SRC
 should work.
-
 ****** Parameterize and simplify recurring code 
  In particular, I enjoy parameterizing creation of construction of Class definitions.
 
