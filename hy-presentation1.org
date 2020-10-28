@@ -331,13 +331,16 @@ Note: In the current version of Hy, *let* is in a contributed module, so we need
 ;; prints -0.4161468365471424
 #+END_SRC
 ****** Hy in Python
-
+#+NAME: Include Hy in Python code
+#+BEGIN_SRC python
+# In Python
 import hy     # do this first
-
 import my-hy-module as baz
 
 # Some function foo is defined in the module my-hy-module.hy
 zog = baz.foo(bar)
+#+END_SRC
+
 
 ***** MACROS
 Macros are my favorite part of Lisp. They allow the full power of a Lisp 
