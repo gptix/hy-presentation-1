@@ -24,7 +24,7 @@ This allows Hy code and Python code to be used in each other.
 ** An overview of what Hy does
 *** Hy 
   - Reads in code written in a Lispy syntax, contained in *foo.hy* files.
-  - Tokenizes it into a Hy AST
+  - Tokenizes it into a Hy abstract syntax tree (AST)
   - Transforms that AST into an equivalent Python AST
   - (And this Python AST can be interpreted or compiled into Python byte code).
 *** Hy code can
@@ -48,7 +48,8 @@ $ pipenv install hy
 #+BEGIN_SRC sh
 $ hy
 hy 0.19.0 using CPython 3.7.6 on Linux
-=> 
+=> [1 2 3]
+[1, 2, 3]
 #+END_SRC
 *Note:* By default, representation of evaluations at the REPL are made in Python style.
 
@@ -57,12 +58,8 @@ To see representations in Hy style,
 #+BEGIN_SRC sh
 $ hy --repl-output-fn=hy.contrib.hy-repr.hy-repr
 => 
-#+END_SRC
-
-#+NAME: 'Hello' at REPL
-#+BEGIN_SRC hy
-> 'hello'
-hello
+> [1 2 3]
+[1 2 3]
 => 
 #+END_SRC
 *** Examples
