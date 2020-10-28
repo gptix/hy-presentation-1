@@ -333,8 +333,10 @@ Note: In the current version of Hy, *let* is in a contributed module, so we need
 ****** Hy in Python
 
 import hy     # do this first
+
 import my-hy-module as baz
-;; Some function foo is defined in the module my-hy-module.hy
+
+# Some function foo is defined in the module my-hy-module.hy
 zog = baz.foo(bar)
 
 ***** MACROS
