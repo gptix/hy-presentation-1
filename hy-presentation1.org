@@ -477,10 +477,15 @@ and called without any enclosing parentheses.
 * Resources
 ** Basics
 Docs, Intro: https://docs.hylang.org/en/stable/ 
+
 PyPI:	https://pypi.python.org/pypi/hy
+
 Source:	https://github.com/hylang/hy
+
 List:	hylang-discuss
+
 IRC:	irc://chat.freenode.net/hy
+
 Stack Overflow:	The [hy] tag
 
 ** Hy code contributed to get closer to CL
