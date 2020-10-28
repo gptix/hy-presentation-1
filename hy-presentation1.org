@@ -271,18 +271,20 @@ test one value against a series of tests.)
 #+END_SRC
 ***** Code blocks 
 ****** `do`
-`do` can be used to gather a number of forms to be executed as a block, like
+*do* can be used to gather a number of forms to be executed as a block, like
  *progn* in Common Lisp.
 
 This is handy for conditionals, for cases in which a true evaluation should 
 trigger a series of expressions to be evaluated.
-
+#+NAME: DO in Hy
+#+BEGIN_SRC hy
+;; In Hy
 (if foo
   (do (print 100)
-  (print 200))
+      (print 200))
     (do (print 300)
         (print 400)))
-
+#+END_SRC
 ****** `let`
 A *let* form creates a scope for bindings.  Bindings made inside the let
 form shadow earlier bindings, and are removed when the *let* form is exited.
