@@ -408,6 +408,9 @@ The three classic higher-order functions:
 (list (foomap [23 24 25]))
 #+END_SRC
 ****** Filter
+#+NAME: *filter* in Hy
+#+BEGIN_SRC hy
+;; In Hy
 ;; Simple function to use in filter.
 (defn fizzy? [x]
   (zero? (% x 3)))
@@ -415,7 +418,7 @@ The three classic higher-order functions:
 ;; Returns a list of xs that are fizzy.
 (defn fizzies [xs]
   (list (filter fizzy? xs)))
-
+#+END_SRC
 ****** Reduce
 ;; Returns the total fizziness of a list of numbers.
 ;; parameters are function, applicands, initial.
