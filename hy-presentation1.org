@@ -5,14 +5,13 @@ This presentation will discuss Hy and give some examples of use.
 - Why might coders want to use Hy?
 - Generally, how does Hy work?
 - A very rapid walkthrough
-  - Basics: Data, basic patterns
+  - Basics: data, basic patterns
+  - Functional patterns
   - An overview of what hy does
 ** Lisp to Python's AST
-Hy is a Lisp that compiles to Python's Abstract Syntax Tree.
-From that AST code, Python interprets or compiles normally.
-This allows Hy code and Python code to be used in each other.
-** Why use Hy?
-- Lispers might prefer thinking in a Lispy way while **gaining Python's ecosystem**.
+Hy is a Lisp that compiles to Python's abstract syntax tree (AST). From that AST code, Python interprets or compiles normally. This allows Hy code and Python code to be used in each other.
+** Why Use Hy?
+- Lispers might prefer thinking in a Lispy way while *gaining Python's ecosystem*.
   - Numpy
   - Scikit-learn
   - Keras
@@ -20,11 +19,11 @@ This allows Hy code and Python code to be used in each other.
   - Flask
 - Pythonistas might like to use a python code base, and learn Lisp idioms by porting.
 - Hy can be used to extend the syntax of normal Python, and, since Hy compiles to Python AST code, it works.
-- Hy has 'defmacro', so it can be used to build boilerplate Python AST code based on a small number of parameters - CODE WRITING CODE.
-** An overview of what Hy does
+- Hy has 'defmacro', so it can be used to build boilerplate Python AST code based on a small number of parameters - *CODE WRITING CODE*.
+** An Overview of What Hy Does
 *** Hy 
   - Reads in code written in a Lispy syntax, contained in *foo.hy* files.
-  - Tokenizes it into a Hy abstract syntax tree (AST)
+  - Tokenizes it into a Hy AST
   - Transforms that AST into an equivalent Python AST
   - (And this Python AST can be interpreted or compiled into Python byte code).
 *** Hy code can
@@ -32,8 +31,8 @@ This allows Hy code and Python code to be used in each other.
 - evaluate Pythonic code
 *** By including Hy in a Python file
 - Python code can make use of Hy modules, using normal Python syntax.
-- Python code can evalute Hy code
-*The Big Thing* This is Fully Round Trip
+- Python code can evalute Hy code.
+*The Big Thing* This is Fully Round Trip.
 ** How do I use it?
 *** Get it
 #+NAME: install Hy
@@ -383,7 +382,8 @@ This is trivially achieved in Hy.
 #+BEGIN_SRC hy
 ;; In Hy
 (defmacro walrus [symb val]
-  `(setv ~symb ~val))
+  `(setv ~symb ~val)
+   symb)
 #+END_SRC
 
 then, in python
@@ -452,34 +452,32 @@ Show
 - Inclusion of Python modules in Hy code
 - Inclusion of Hy modules in Python code
 
-* In summary
+* In Summary:
 We have discussed, and used relevant code, regarding:
 - What Hy is
 - Why coders might want to use Hy, whether Lispers, Pythonistas, or other
 - An overview about how Hy works
 - How to install it
 - Use Hy from a REPL
-- Data Types
+- Data types
 - Walked though aspects of Hy language
   - data types, structures, classes
   - macros
   - functional programming in Hy
 - Demonstrated interopability between Hy code and Python code
 * Further 
-Hy has been around since 2012, and has more that could be
-demonstrated in this talk.
-
+Hy has been around since 2012, and has more that could be demonstrated in this talk.
 - the threader macros
-- -> takes a series of expressions and
+- *->* takes a series of expressions and
       - evaluates one
       - feeds the evaluation of the that one  as the first parameter value to the next
       - returns the output of the last.
 
-- ->> is like ->, but feeds the output of each as the *last* parameter value to the next
+- *->>* is like ->, but feeds the output of each as the *last* parameter value to the next
 
-- tag macros
+- *tag macros*
 
-A way to make syntactic sugar. Single-input macros can be associated with any one character,
+Tag macros are a way to make syntactic sugar. Single-input macros can be associated with any one character,
 and called without any enclosing parentheses.
 
 Don't worry, any unicode character will do, so there are plenty.
