@@ -420,11 +420,14 @@ The three classic higher-order functions:
   (list (filter fizzy? xs)))
 #+END_SRC
 ****** Reduce
+#+NAME: *reducer* in Hy
+#+BEGIN_SRC hy
+;; In Hy
 ;; Returns the total fizziness of a list of numbers.
 ;; parameters are function, applicands, initial.
 (defn fizziness [xs]
   (reduce + (fizzies xs) []))
-
+#+END_SRC
 ***** Interopability with Python
 The files
 - test-interop.hy
