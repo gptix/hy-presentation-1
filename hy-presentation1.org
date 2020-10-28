@@ -43,7 +43,6 @@ $ chdir myhy
 $ pipenv shell
 $ pipenv install hy
 #+END_SRC
-
 *** Use a REPL 
 #+NAME: Use Hy in a REPL
 #+BEGIN_SRC sh
@@ -51,7 +50,6 @@ $ hy
 hy 0.19.0 using CPython 3.7.6 on Linux
 => 
 #+END_SRC
-
 *Note:* By default, representation of evaluations at the REPL are made in Python style.
 
 To see representations in Hy style, 
@@ -60,7 +58,6 @@ To see representations in Hy style,
 $ hy --repl-output-fn=hy.contrib.hy-repr.hy-repr
 => 
 #+END_SRC
-
 
 #+NAME: 'Hello' at REPL
 #+BEGIN_SRC hy
@@ -205,9 +202,13 @@ These can be used if the identity of the form to be queried will be the result o
 ***** Functions
 ****** Named functions
 ******* Python
+#+NAME: function in Python
+#+BEGIN_SRC python
+# In Python
 def boo():
     print("OMIGOSH!")
     return
+#+END_SRC
 ******* Hy
 #+NAME: named function in Hy
 #+BEGIN_SRC hy
@@ -216,10 +217,14 @@ def boo():
   (print "OMIGOSH!"))
 #+END_SRC
 ******* Python
+#+NAME: function with parameter and for loop in Python
+#+BEGIN_SRC python
+# In Python
 def many-boos(x):
     for i in range(x):
         boo()
     return
+#+END_SRC
 ******* Hy
 #+NAME: function with parameter and a for loop
 #+BEGIN_SRC hy
@@ -272,7 +277,6 @@ exits.
 
 (A straightforward macro to write would be 'case', which would
 test one value against a series of tests.)
-
 #+NAME: anonymous function in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -282,7 +286,7 @@ test one value against a series of tests.)
       [(< 100 500) (print "Never here")])
 ;; Returns "here"
 #+END_SRC
-***** Code blocks 
+***** Code blocks
 ****** `do`
 *do* can be used to gather a number of forms to be executed as a block, like
  *progn* in Common Lisp.
@@ -298,7 +302,7 @@ trigger a series of expressions to be evaluated.
     (do (print 300)
         (print 400)))
 #+END_SRC
-****** `let`
+****** *let*
 A *let* form creates a scope for bindings.  Bindings made inside the let
 form shadow earlier bindings, and are removed when the *let* form is exited.
 
