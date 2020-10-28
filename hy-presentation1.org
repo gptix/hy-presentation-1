@@ -392,6 +392,9 @@ The three classic higher-order functions:
 ****** Map
 *map* applies one function to each element of an iterable data structure.
 
+#+NAME: *map* in Hy
+#+BEGIN_SRC hy
+;; In Hy
 ;; Sample function to use in map
 (defn foofun [x]
   (+ x 100))
@@ -403,7 +406,7 @@ The three classic higher-order functions:
 
 ;; *list* can create a list from a *map* object.
 (list (foomap [23 24 25]))
-
+#+END_SRC
 ****** Filter
 ;; Simple function to use in filter.
 (defn fizzy? [x]
