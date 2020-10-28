@@ -298,6 +298,7 @@ trigger a series of expressions to be evaluated.
       (print 200))
     (do (print 300)
         (print 400)))
+;; prints 100 and then prints 200
 #+END_SRC
 ****** *let*
 A *let* form creates a scope for bindings.  Bindings made inside the let
