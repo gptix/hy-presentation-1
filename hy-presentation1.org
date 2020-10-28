@@ -289,18 +289,23 @@ trigger a series of expressions to be evaluated.
 A *let* form creates a scope for bindings.  Bindings made inside the let
 form shadow earlier bindings, and are removed when the *let* form is exited.
 
-Note: `let` in Hy binds symbol-value pairs in SERIES, like `let*` in CL.
+Note: `let` in Hy binds symbol-value pairs *serially*, like *let** in CL.
 
-Note: In the current version of Hy, *let* is in a contributed module, so we need to do:
-
+Note: In the current version of Hy, *let* is in a contributed module, so we need to *require* it:
+#+NAME: *let* in Hy
+#+BEGIN_SRC hy
+;; In Hy
 (require [hy.contrib.walk [let]])
 
 (setv foo 3)
 
+;; let creates a local scope
 (let [foo 5 bar 7]
-  (print (+ foo 100))) 
+  (print (+ foo 100))) ; prints 105
 
-(print foo)
+;; We are back out of the scope of the let.
+(print foo) ; prints 3
+#+END_SRC
 
 ***** Interoperabiluty with Python
 ****** Python in Hy
