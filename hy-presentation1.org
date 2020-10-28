@@ -494,21 +494,30 @@ Module that adds many things from CL https://github.com/riktor/hycl/blob/master/
 ** Videos: 
 
 October 2016
+
 A Talk About Hy
+
 Chris McCormick 
+
 https://www.youtube.com/watch?v=iOMvkSrPWhk
 
 2014 
+
 Paul Tagliamonte
+
 https://www.youtube.com/watch?v=AmMaN1AokTI
 
 May 9, 2013 
+
 ChiPy - Christopher Webber
+
 https://www.youtube.com/watch?v=SB9TWabor1k
 
 ** Book
 A Lisp Programmer Living in Python-Land: The Hy Programming Language
+
 https://leanpub.com/hy-lisp-python
+
 * My Points of Contact:
 - ~habnus-dovres
 
