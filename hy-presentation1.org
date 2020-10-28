@@ -309,25 +309,27 @@ Note: In the current version of Hy, *let* is in a contributed module, so we need
 
 ***** Interoperabiluty with Python
 ****** Python in Hy
+#+NAME: Using (importing) Python in Hy
+#+BEGIN_SRC hy
+;; In Hy
 (import [numpy :as np]
         [pandas :as pd]
         [math :as torture])
 
-;; Here, the dot is used to divide the module name from the function 
+;; In Hy, the dot is used to divide the module name from the function 
 ;; defined within that module.
-
-(torture.cos 2)
--0.4161468365471424
+(print (torture.cos 2))
+;; prints -0.4161468365471424
 
 ;; Aternative format
-=> (.cos torture 2)
--0.4161468365471424
+(print (.cos torture 2))
+;; prints -0.4161468365471424
 
 ;; Individual functions
-=> (import [math [cos]])
-=> (cos 2)
--0.4161468365471424
-
+(import [math [cos]])
+(print (cos 2))
+;; prints -0.4161468365471424
+#+END_SRC
 ****** Hy in Python
 
 import hy     # do this first
