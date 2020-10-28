@@ -227,36 +227,29 @@ Anonymous functions in Hy can be arbitrarily complex, unlike `lamba`s in Python.
 #+END_SRC
 ***** Conditionals
 ****** `if`, et cetera
-Important: By default, Pythonic Truthiness is used.
+*Important:* By default, Pythonic Truthiness is used.
 0, length of 0, False, and None -> Falsy
 This can be overcome in a variety of ways (`lif`, `__bool__`)
-
-> (setv foo True)
-
-> foo
-;; Returns True
-
+#+NAME: function with parameter and a for loop
+#+BEGIN_SRC hy
+;; In Hy
+;; This demonstrates use of a parameter, and the use of a 'for' loop.
+(setv foo True)
 (setv bar 0)
-
->bar
-;; Returns 0
 
 ;; Since bar = 0, which in Python is 'Falsy', the first *test/do* clause fill be bypassed.
 :: Since *foo* is *True*, the second do clause will be accepted.
-
 (if bar "first one" 
     foo  "second one")
 
-"second one"
-
+;; returns "second one"
+#+END_SRC
 If no test is Truthy, `None` is returned.
-
 *Also available:*
 - if-not
 - if* (only one conditional test/success pair)
 - lif (Lispy if, False only on None   --   EVEN `False` is Truthy here)
 - lnif
-
 ****** cond
 cond creates nested if expressions. For each condition, if True,
 the associated form is evaluated, and if the predicate is false, 
