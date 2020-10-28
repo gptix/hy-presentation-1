@@ -22,9 +22,9 @@ Hy is a Lisp that compiles to Python's abstract syntax tree (AST). From that AST
 - Hy has 'defmacro', so it can be used to build boilerplate Python AST code based on a small number of parameters - *CODE WRITING CODE*.
 ** An Overview of What Hy Does
 *** Hy 
-  - Reads in code written in a Lispy syntax, contained in *foo.hy* files.
-  - Tokenizes it into a Hy AST
-  - Transforms that AST into an equivalent Python AST
+  - Reads in code written in a Lispy syntax, contained in *foo.hy* files,
+  - Tokenizes it into a Hy AST,
+  - Transforms that AST into an equivalent Python AST,
   - (And this Python AST can be interpreted or compiled into Python byte code).
 *** Hy code can
 - make use of Python modules
@@ -32,7 +32,7 @@ Hy is a Lisp that compiles to Python's abstract syntax tree (AST). From that AST
 *** By including Hy in a Python file
 - Python code can make use of Hy modules, using normal Python syntax.
 - Python code can evalute Hy code.
-*The Big Thing* This is Fully Round Trip.
+*The Big Thing* This is *Fully Round Trip*.
 ** How do I use it?
 *** Get it
 #+NAME: install Hy
@@ -50,7 +50,7 @@ hy 0.19.0 using CPython 3.7.6 on Linux
 => [1 2 3]
 [1, 2, 3]
 #+END_SRC
-*Note:* By default, representation of evaluations at the REPL are made in Python style.
+*Note:* By default, representations of evaluations at the REPL are made in Python style.
 
 To see representations in Hy style, 
 #+NAME: REPL print in Hy syntax
@@ -116,7 +116,7 @@ def many-boos(x):
 #+BEGIN_SRC hy
 ;; In Hy
 (defn manyboos [x]
-  (for [x (range x)]
+  (for [i (range x)]
     (boo)))
 #+END_SRC
 **** Interlude - Built in Data Types
@@ -167,7 +167,7 @@ bar.x        ; evals to 17
 ;; In Hy
 (bar.get-x)  ; evals to 17
 #+END_SRC
-******* Using the actual symbol-name, 
+******* Using the actual symbol-name 
 #+NAME: dot-attribute-object in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -180,6 +180,7 @@ bar.x        ; evals to 17
 (.get-x bar) ; evals to 17
 #+END_SRC
 ******* or a form that evaluates to an object
+
 These can be used if the identity of the form to be queried will be the result of a function.
 #+NAME: get-hyphen-attribute-object in Hy
 #+BEGIN_SRC hy
@@ -216,6 +217,7 @@ def boo():
 #+NAME: function with parameter and for loop in Python
 #+BEGIN_SRC python
 # In Python
+# This demonstrates use of a parameter, and the use of a 'for' loop.
 def many-boos(x):
     for i in range(x):
         boo()
@@ -231,7 +233,7 @@ def many-boos(x):
     (boo)))
 #+END_SRC
 ****** Anonymous functions
-Anonymous functions in Hy can be arbitrarily complex, unlike *lambda*s in Python.
+Anonymous functions in Hy can be arbitrarily complex, unlike *lambdas* in Python.
 #+NAME: anonymous function in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -243,7 +245,7 @@ Anonymous functions in Hy can be arbitrarily complex, unlike *lambda*s in Python
 ****** `if`, et cetera
 *Note:* By default, Pythonic Truthiness is used.
 0, length of 0, False, and None -> Falsy
-This can be overcome in a variety of ways (`lif`, `__bool__`)
+This can be overcome in a variety of ways (*lif*, *__bool__*)
 #+NAME: function with parameter and a for loop
 #+BEGIN_SRC hy
 ;; In Hy
@@ -257,7 +259,7 @@ This can be overcome in a variety of ways (`lif`, `__bool__`)
 
 ;; returns "second one"
 #+END_SRC
-If no test is Truthy, `None` is returned.
+If no test is truthy, `None` is returned.
 
 *Also available:*
 - if-not
@@ -265,14 +267,10 @@ If no test is Truthy, `None` is returned.
 - lif (Lispy if, False only on None   --   EVEN `False` is Truthy here)
 - lnif
 ****** cond
-cond creates nested if expressions. For each condition, if True,
-the associated form is evaluated, and if the predicate is false, 
-the 'else' action is to move to the next test.
-Evaluation 'short-circuits' at this point, and the cond expression 
-exits.
+*cond* creates nested if expressions. For each condition, if *True*, the associated form is evaluated, and if the predicate is *False*, the 'else' action is to move to the next test.
+Evaluation 'short-circuits' at this point, and the cond expression exits.
 
-(A straightforward macro to write would be 'case', which would
-test one value against a series of tests.)
+(A straightforward macro to write would be *case*, which would test one value against a series of tests.)
 #+NAME: anonymous function in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -284,28 +282,25 @@ test one value against a series of tests.)
 #+END_SRC
 ***** Code blocks
 ****** `do`
-*do* can be used to gather a number of forms to be executed as a block, like
- *progn* in Common Lisp.
+*do* can be used to gather a number of forms to be executed as a block, like *progn* in Common Lisp.
 
-This is handy for conditionals, for cases in which a true evaluation should 
-trigger a series of expressions to be evaluated.
+This is handy for conditionals, for cases in which a true evaluation should trigger a series of expressions to be evaluated.
 #+NAME: DO in Hy
 #+BEGIN_SRC hy
 ;; In Hy
 (if foo
   (do (print 100)
       (print 200))
-    (do (print 300)
-        (print 400)))
+  (do (print 300)
+      (print 400)))
 ;; prints 100 and then prints 200
 #+END_SRC
 ****** *let*
-A *let* form creates a scope for bindings.  Bindings made inside the let
-form shadow earlier bindings, and are removed when the *let* form is exited.
+A *let* form creates a scope for bindings.  Bindings made inside the *let* form shadow earlier bindings, and are removed when the *let* form is exited.
 
-Note: `let` in Hy binds symbol-value pairs *serially*, like *let** in CL.
+*Note:* *let* in Hy binds symbol-value pairs *serially*, like *let** in CL.
 
-Note: In the current version of Hy, *let* is in a contributed module, so we need to *require* it:
+*Note:* In the current version of Hy, *let* is in a contributed module, so we need to *require* it:
 #+NAME: *let* in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -335,7 +330,7 @@ Note: In the current version of Hy, *let* is in a contributed module, so we need
 (print (torture.cos 2))
 ;; prints -0.4161468365471424
 
-;; Aternative format
+;; Aternative syntax
 (print (.cos torture 2))
 ;; prints -0.4161468365471424
 
@@ -402,7 +397,7 @@ should work.
  (defmacro 
 
 ***** Functionalism
-Hy is indeed a real lisp, and can be used in functional style.
+Hy is indeed a real Lisp (a Lisp-1 for those counting), and can be used in functional style.
 The three classic higher-order functions:
 ****** Map
 *map* applies one function to each element of an iterable data structure.
@@ -447,8 +442,7 @@ The three classic higher-order functions:
 The files
 - test-interop.hy
 - hytest.py
-
-Show 
+show 
 - Inclusion of Python modules in Hy code
 - Inclusion of Hy modules in Python code
 
@@ -458,7 +452,7 @@ We have discussed, and used relevant code, regarding:
 - Why coders might want to use Hy, whether Lispers, Pythonistas, or other
 - An overview about how Hy works
 - How to install it
-- Use Hy from a REPL
+- How to use Hy from a REPL
 - Data types
 - Walked though aspects of Hy language
   - data types, structures, classes
@@ -468,19 +462,16 @@ We have discussed, and used relevant code, regarding:
 * Further 
 Hy has been around since 2012, and has more that could be demonstrated in this talk.
 - the threader macros
-- *->* takes a series of expressions and
-      - evaluates one
-      - feeds the evaluation of the that one  as the first parameter value to the next
-      - returns the output of the last.
-
-- *->>* is like ->, but feeds the output of each as the *last* parameter value to the next
-
-- *tag macros*
-
+  - *->* takes a series of expressions and
+    - evaluates one
+    - feeds the evaluation of the that one  as the first parameter value to the next
+    - returns the output of the last.
+  - *->>* is like ->, but feeds the output of each as the *last* parameter value to the next
+- tag macros
 Tag macros are a way to make syntactic sugar. Single-input macros can be associated with any one character,
 and called without any enclosing parentheses.
 
-Don't worry, any unicode character will do, so there are plenty.
+(Don't worry, any unicode character will do, so there are plenty.)
 
 - anaphoric macros
 * Resources
