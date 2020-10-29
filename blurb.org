@@ -21,9 +21,13 @@ This will be the first of a series of talks about how to use Hy.
 
 The Hy language allows programmers to code in a fully functional language: Hy (of course).
 
-`Hy is a Lisp that compiles to a valid Python Abstract Syntax Tree, and compiles and runs based on that.`
+#+NAME: Trying to make a fixed font block
+#+BEGIN_SRC python
+Hy is is a Lisp that compiles to a valid Python Abstract Syntax Tree, and compiles and runs based on that.
 
-`Python also       compiles to a valid Python Abstract Syntax Tree, and compiles and runs based on that.`
+Python also is       compiles to a valid Python Abstract Syntax Tree, and compiles and runs based on that.
+#+END_SRC
+
 
 *See that?*
 
