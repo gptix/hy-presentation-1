@@ -1,7 +1,23 @@
-XAtlanta Functional Programming Meetup
-Blurb for introduction to Hy
+- How do I log into the Youtube account?
+- Are the links on this OK?
+- Is the date and time OK?  Tuesday is PyAtl Night.
+- I have clarified that the meeting will be first in a series.
 
-Take your Python Hyer, Using a Lisp
+
+
+Atlanta Functional Programming Meetup
+
+*Take your Python Hyer, Using a Lisp*
+
+WEDNESDAY, 11 November (Dog Day in Japan, because in Japan, dogs say 'wan!', so 11/11 is 'wanwanwanwan!')
+7 P.M. EST
+Online
+Youtube:  https://www.youtube.com/channel/UCYg6qFXDE5SGT_YXhuJPU0A
+Hangouts: https://hangouts.google.com/call/J3AJXibg29EbgiNZriH0ACEE
+
+This will be the first of a series of talks about how to use Hy.
+
+*WhyHy?*
 
 The Hy language allows programmers to code in a fully functional language: Hy (of course).
 
@@ -13,7 +29,7 @@ Python also       compiles to a valid Python Abstract Syntax Tree, and compiles 
 
 This means that Hy can include Python seamlessly, and Python can include Hy seamlessly.
 
-Hy has all of the advantages of Lisp. Programming in the powerful functional style is the norm. Use of higher-level functions is first nature. Macros enable the ultimate in metaprogramming.
+Hy has all of the advantages of Lisp. Programming in the powerful functional style is the norm. Use of higher-level functions is first nature. *Macros* enable the ultimate in metaprogramming.
 
 This last is incredibly powerful, because it allows coders to write code that writes code; boilerplate can be carefully built, then encapsulated for error-free use by calling macros with only the few variant parameters being specified.
 
@@ -23,12 +39,12 @@ If you code in Python and want to Learn You Some Lisp, Hy is a great way to do t
 
 If you are a Lisper, and would like easy, kludge-free access to the Pythonosphere, dig in!
 
-The first presentation will cover basics, showing how the syntaxes correlate.
+The first presentation will cover basics, showing how the syntaxes correlate, and how to include Hy in Py, and Py in Hy.
 
 We'd love to see all of you there!
 
 Put this date in your Roam or other media:
 
-HourMinutre, DOW, Date, Month, Year
-YouTube address
-Google Hangouts Address
+7 PM, Wednesday, 11 November 2020
+Youtube:  https://www.youtube.com/channel/UCYg6qFXDE5SGT_YXhuJPU0A
+Hangouts: https://hangouts.google.com/call/J3AJXibg29EbgiNZriH0ACEE

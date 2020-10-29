@@ -1,5 +1,5 @@
 * Why oh Hy?
-** Prelude
+* Prelude
 This presentation will discuss Hy and give some examples of use.
 - What is Hy?
 - Why might coders want to use Hy?
@@ -8,9 +8,9 @@ This presentation will discuss Hy and give some examples of use.
   - Basics: data, basic patterns
   - Functional patterns
   - An overview of what hy does
-** Lisp to Python's AST
+* Lisp to Python's AST
 Hy is a Lisp that compiles to Python's abstract syntax tree (AST). From that AST code, Python interprets or compiles normally. This allows Hy code and Python code to be used in each other.
-** Why Use Hy?
+* Why Use Hy?
 - Lispers might prefer thinking in a Lispy way while *gaining Python's ecosystem*.
   - Numpy
   - Scikit-learn
@@ -20,21 +20,21 @@ Hy is a Lisp that compiles to Python's abstract syntax tree (AST). From that AST
 - Pythonistas might like to use a python code base, and learn Lisp idioms by porting.
 - Hy can be used to extend the syntax of normal Python, and, since Hy compiles to Python AST code, it works.
 - Hy has 'defmacro', so it can be used to build boilerplate Python AST code based on a small number of parameters - *CODE WRITING CODE*.
-** An Overview of What Hy Does
-*** Hy 
-  - Reads in code written in a Lispy syntax, contained in *foo.hy* files,
-  - Tokenizes it into a Hy AST,
-  - Transforms that AST into an equivalent Python AST,
-  - (And this Python AST can be interpreted or compiled into Python byte code).
-*** Hy code can
+* An Overview of What Hy Does
+** Hy 
+ - Reads in code written in a Lispy syntax, contained in *foo.hy* files,
+ - Tokenizes it into a Hy AST,
+ - Transforms that AST into an equivalent Python AST,
+ - (And this Python AST can be interpreted or compiled into Python byte code).
+** Hy code can
 - make use of Python modules
 - evaluate Pythonic code
-*** By including Hy in a Python file
+** By including Hy in a Python file
 - Python code can make use of Hy modules, using normal Python syntax.
 - Python code can evalute Hy code.
 *The Big Thing* This is *Fully Round Trip*.
-** How do I use it?
-*** Get it
+* How do I use it?
+** Get it
 #+NAME: install Hy
 #+BEGIN_SRC sh
 $ mkdir myhy
@@ -42,7 +42,7 @@ $ chdir myhy
 $ pipenv shell
 $ pipenv install hy
 #+END_SRC
-*** Use a REPL 
+** Use a REPL 
 #+NAME: Use Hy in a REPL
 #+BEGIN_SRC sh
 $ hy
@@ -61,8 +61,8 @@ $ hy --repl-output-fn=hy.contrib.hy-repr.hy-repr
 [1 2 3]
 => 
 #+END_SRC
-*** Examples
-**** ¡Hola, Amigos!
+** Examples
+*** ¡Hola, Amigos!
 #+NAME: ¡Hola, Amigos! Python
 #+BEGIN_SRC python
 # In Python
@@ -74,8 +74,8 @@ print("¡Hola, Amigos!")
 ;; In Hy
 (print "¡Hola, Amigos!")
 #+END_SRC
-**** Binding
-***** Data 
+*** Binding
+**** Data 
 #+NAME: assignment in Python
 #+BEGIN_SRC python
 # In Python
@@ -87,7 +87,7 @@ foo = 17
 ;; In Hy
 (setv foo 17)
 #+END_SRC
-***** Function (I know, I know)
+**** Function (I know, I know)
 #+NAME: function definition in Python
 #+BEGIN_SRC python
 # In Python
@@ -119,25 +119,25 @@ def many-boos(x):
   (for [i (range x)]
     (boo)))
 #+END_SRC
-**** Interlude - Built in Data Types
- | Type     | Python         | Hy           | Note                                                      |
- |----------+----------------+--------------+-----------------------------------------------------------|
- | int      | 1              | 1            |                                                           |
- | float    | 1.2            | 1.2          |                                                           |
- | complex  | 4j             | 4j           |                                                           |
- | bool     | True           | True         |                                                           |
- | NoneType | None           | None         |                                                           |
- | str      | 'hy'           | "hy"         | -- hy uses doublequotes                                   |
- | bytes    | b'hy'          | b"hy"        |                                                           |
- | tuple    | (1, 2, 3)      | (, 1 2 3)    | -- hy uses leading comma                                  |
- | list     | [1, 2, 3]      | [1 2 3]      | -- hy does not use commas                                 |
- | set      | {1, 2, 3}      | #{1 2 3}     | -- # sign                                                 |
- | dict     | {1: 2, 3: 4}   | {1 2    3 4} | -- two spaces btwn kv pairs (markdown does not show this) |
- | fraction | Fraction(1, 3) | 1/3          | -- Hy reads 1/3                                           |
+*** Interlude - Built in Data Types
+| Type     | Python         | Hy           | Note                                                      |
+|----------+----------------+--------------+-----------------------------------------------------------|
+| int      | 1              | 1            |                                                           |
+| float    | 1.2            | 1.2          |                                                           |
+| complex  | 4j             | 4j           |                                                           |
+| bool     | True           | True         |                                                           |
+| NoneType | None           | None         |                                                           |
+| str      | 'hy'           | "hy"         | -- hy uses doublequotes                                   |
+| bytes    | b'hy'          | b"hy"        |                                                           |
+| tuple    | (1, 2, 3)      | (, 1 2 3)    | -- hy uses leading comma                                  |
+| list     | [1, 2, 3]      | [1 2 3]      | -- hy does not use commas                                 |
+| set      | {1, 2, 3}      | #{1 2 3}     | -- # sign                                                 |
+| dict     | {1: 2, 3: 4}   | {1 2    3 4} | -- two spaces btwn kv pairs (markdown does not show this) |
+| fraction | Fraction(1, 3) | 1/3          | -- Hy reads 1/3                                           |
 
-**** Snippets
-***** Classes
-****** Define a class
+*** Snippets
+**** Classes
+***** Define a class
 Definition of classes is a straightforward translation from Python syntax.
 #+NAME: Class definition in Hy
 #+BEGIN_SRC hy
@@ -148,14 +148,14 @@ Definition of classes is a straightforward translation from Python syntax.
   (defn get-x [self]
     self.x))
 #+END_SRC
-****** Instantiate an object
+***** Instantiate an object
 #+NAME: Object instantiation in Hy
 #+BEGIN_SRC hy
 ;; In Hy
 (setv bar (BigSur 17))
 #+END_SRC
-****** Access attributes
-******* Using the actual symbol-name of an object
+***** Access attributes
+****** Using the actual symbol-name of an object
 #+NAME: object-dot-attribute in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -167,7 +167,7 @@ bar.x        ; evals to 17
 ;; In Hy
 (bar.get-x)  ; evals to 17
 #+END_SRC
-******* Using the actual symbol-name 
+****** Using the actual symbol-name 
 #+NAME: dot-attribute-object in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -179,7 +179,7 @@ bar.x        ; evals to 17
 ;; In Hy
 (.get-x bar) ; evals to 17
 #+END_SRC
-******* or a form that evaluates to an object
+****** or a form that evaluates to an object
 
 These can be used if the identity of the form to be queried will be the result of a function.
 #+NAME: get-hyphen-attribute-object in Hy
@@ -196,9 +196,9 @@ These can be used if the identity of the form to be queried will be the result o
 (.get-x (gimme-object baz))
 #+END_SRC
 
-***** Functions
-****** Named functions
-******* Python
+**** Functions
+***** Named functions
+****** Python
 #+NAME: function in Python
 #+BEGIN_SRC python
 # In Python
@@ -206,14 +206,14 @@ def boo():
     print("OMIGOSH!")
     return
 #+END_SRC
-******* Hy
+****** Hy
 #+NAME: named function in Hy
 #+BEGIN_SRC hy
 ;; In Hy
 (defn boo []
   (print "OMIGOSH!"))
 #+END_SRC
-******* Python
+****** Python
 #+NAME: function with parameter and for loop in Python
 #+BEGIN_SRC python
 # In Python
@@ -223,7 +223,7 @@ def many-boos(x):
         boo()
     return
 #+END_SRC
-******* Hy
+****** Hy
 #+NAME: function with parameter and a for loop
 #+BEGIN_SRC hy
 ;; In Hy
@@ -232,7 +232,7 @@ def many-boos(x):
   (for [i (range x)]
     (boo)))
 #+END_SRC
-****** Anonymous functions
+***** Anonymous functions
 Anonymous functions in Hy can be arbitrarily complex, unlike *lambdas* in Python.
 #+NAME: anonymous function in Hy
 #+BEGIN_SRC hy
@@ -241,8 +241,8 @@ Anonymous functions in Hy can be arbitrarily complex, unlike *lambdas* in Python
 (list (map (fn [x] (+ 10 x)) [1 2 3]))
 ;; returns [11 12 13]
 #+END_SRC
-***** Conditionals
-****** `if`, et cetera
+**** Conditionals
+***** `if`, et cetera
 *Note:* By default, Pythonic Truthiness is used.
 0, length of 0, False, and None -> Falsy
 This can be overcome in a variety of ways (*lif*, *__bool__*)
@@ -266,7 +266,7 @@ If no test is truthy, `None` is returned.
 - if* (only one conditional test/success pair)
 - lif (Lispy if, False only on None   --   EVEN `False` is Truthy here)
 - lnif
-****** cond
+***** cond
 *cond* creates nested if expressions. For each condition, if *True*, the associated form is evaluated, and if the predicate is *False*, the 'else' action is to move to the next test.
 Evaluation 'short-circuits' at this point, and the cond expression exits.
 
@@ -280,8 +280,8 @@ Evaluation 'short-circuits' at this point, and the cond expression exits.
       [(< 100 500) (print "Never here")])
 ;; Returns "here"
 #+END_SRC
-***** Code blocks
-****** `do`
+**** Code blocks
+***** `do`
 *do* can be used to gather a number of forms to be executed as a block, like *progn* in Common Lisp.
 
 This is handy for conditionals, for cases in which a true evaluation should trigger a series of expressions to be evaluated.
@@ -295,7 +295,7 @@ This is handy for conditionals, for cases in which a true evaluation should trig
       (print 400)))
 ;; prints 100 and then prints 200
 #+END_SRC
-****** *let*
+***** *let*
 A *let* form creates a scope for bindings.  Bindings made inside the *let* form shadow earlier bindings, and are removed when the *let* form is exited.
 
 *Note:* *let* in Hy binds symbol-value pairs *serially*, like *let** in CL.
@@ -316,8 +316,8 @@ A *let* form creates a scope for bindings.  Bindings made inside the *let* form 
 (print foo) ; prints 3
 #+END_SRC
 
-***** Interoperabiluty with Python
-****** Python in Hy
+**** Interoperabiluty with Python
+***** Python in Hy
 #+NAME: Using (importing) Python in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -339,7 +339,7 @@ A *let* form creates a scope for bindings.  Bindings made inside the *let* form 
 (print (cos 2))
 ;; prints -0.4161468365471424
 #+END_SRC
-****** Hy in Python
+***** Hy in Python
 #+NAME: Include Hy in Python code
 #+BEGIN_SRC python
 # In Python
@@ -349,14 +349,14 @@ import my-hy-module as baz
 # Some function foo is defined in the module my-hy-module.hy
 zog = baz.foo(bar)
 #+END_SRC
-***** MACROS
+**** MACROS
 Macros are my favorite part of Lisp. They allow the full power of a Lisp 
 language to be used at compile time to build code to be executed at run time.
 
 The full power of macros is well beyond the scope or time of this talk.
 
 Two uses of macros that should be of immediately useful:
-****** Extension of syntax of a language
+***** Extension of syntax of a language
 A great example of this is the implementation of the `walrus` operator, 
 which was only added to Python in 3.8.
 
@@ -391,15 +391,15 @@ print(f"The value is {walrus(foo 3)}.")
 print(f"I said, {foo}!")
 #+END_SRC
 should work.
-****** Parameterize and simplify recurring code 
- In particular, I enjoy parameterizing creation of construction of Class definitions.
+***** Parameterize and simplify recurring code 
+In particular, I enjoy parameterizing creation of construction of Class definitions.
 
- (defmacro 
+(defmacro 
 
-***** Functionalism
+**** Functionalism
 Hy is indeed a real Lisp (a Lisp-1 for those counting), and can be used in functional style.
 The three classic higher-order functions:
-****** Map
+***** Map
 *map* applies one function to each element of an iterable data structure.
 
 #+NAME: *map* in Hy
@@ -417,7 +417,7 @@ The three classic higher-order functions:
 ;; *list* can create a list from a *map* object.
 (list (foomap [23 24 25]))
 #+END_SRC
-****** Filter
+***** Filter
 #+NAME: *filter* in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -429,7 +429,7 @@ The three classic higher-order functions:
 (defn fizzies [xs]
   (list (filter fizzy? xs)))
 #+END_SRC
-****** Reduce
+***** Reduce
 #+NAME: *reducer* in Hy
 #+BEGIN_SRC hy
 ;; In Hy
@@ -438,7 +438,7 @@ The three classic higher-order functions:
 (defn fizziness [xs]
   (reduce + (fizzies xs) []))
 #+END_SRC
-***** Interopability with Python
+**** Interopability with Python
 The files
 - test-interop.hy
 - hytest.py
