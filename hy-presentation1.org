@@ -527,4 +527,4 @@ https://leanpub.com/hy-lisp-python
 
 - @gptix on twitter
 
-- gptix on github
+- this presentation is in the following repo on github - https://github.com/gptix/hy-presentation-1 
