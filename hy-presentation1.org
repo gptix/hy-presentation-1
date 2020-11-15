@@ -106,7 +106,7 @@ def boo():
 #+NAME: function with a parameter in Python
 #+BEGIN_SRC python
 # In Python
-def many-boos(x):
+def manyBoos(x):
     for i in range(x):
         boo()
     return
@@ -118,6 +118,8 @@ def many-boos(x):
 (defn manyboos [x]
   (for [i (range x)]
     (boo)))
+
+!! Show named parameters example.
 #+END_SRC
 *** Interlude - Built in Data Types
 | Type     | Python         | Hy           | Note                                                      |
@@ -132,7 +134,7 @@ def many-boos(x):
 | tuple    | (1, 2, 3)      | (, 1 2 3)    | -- hy uses leading comma                                  |
 | list     | [1, 2, 3]      | [1 2 3]      | -- hy does not use commas                                 |
 | set      | {1, 2, 3}      | #{1 2 3}     | -- # sign                                                 |
-| dict     | {1: 2, 3: 4}   | {1 2    3 4} | -- two spaces btwn kv pairs (markdown does not show this) |
+| dict     | {1: 2, 3: 4}   | {1 2  3 4}   | -- two spaces btwn kv pairs (markdown does not show this) |
 | fraction | Fraction(1, 3) | 1/3          | -- Hy reads 1/3                                           |
 
 *** Snippets
@@ -141,6 +143,7 @@ def many-boos(x):
 Definition of classes is a straightforward translation from Python syntax.
 #+NAME: Class definition in Hy
 #+BEGIN_SRC hy
+
 ;; In Hy
 (defclass BigSur []
   (defn __init__ [self x]
@@ -218,7 +221,7 @@ def boo():
 #+BEGIN_SRC python
 # In Python
 # This demonstrates use of a parameter, and the use of a 'for' loop.
-def many-boos(x):
+def manyBoos(x):
     for i in range(x):
         boo()
     return
@@ -228,7 +231,7 @@ def many-boos(x):
 #+BEGIN_SRC hy
 ;; In Hy
 ;; This demonstrates use of a parameter, and the use of a 'for' loop.
-(defn many-boos [x]
+(defn manyBoos [x]
   (for [i (range x)]
     (boo)))
 #+END_SRC
@@ -238,213 +241,337 @@ Anonymous functions in Hy can be arbitrarily complex, unlike *lambdas* in Python
 #+BEGIN_SRC hy
 ;; In Hy
 ;; Anonymous functions start with *fn* symbol
+
+;;---------| anonymous function here
+;; Since map returns an (initerated) iterable, we use list to iterate through it completely.
 (list (map (fn [x] (+ 10 x)) [1 2 3]))
 ;; returns [11 12 13]
 #+END_SRC
 **** Conditionals
 ***** `if`, et cetera
-*Note:* By default, Pythonic Truthiness is used.
+By default, Pythonic Truthiness is used.
 0, length of 0, False, and None -> Falsy
-This can be overcome in a variety of ways (*lif*, *__bool__*)
-#+NAME: function with parameter and a for loop
-#+BEGIN_SRC hy
-;; In Hy
-(setv foo True)
-(setv bar 0)
+This can be overcome in a variety of ways (use of lif, definition of __bool__)
 
-;; Since bar = 0, which in Python is 'Falsy', the first *test/do* clause fill be bypassed.
-;; Since *foo* is *True*, the second do clause will be accepted.
-(if bar "first one" 
-    foo  "second one")
+***** if*
+    if* is the 'basic' form.  (if* predicate consequent [optional alternative])
 
-;; returns "second one"
-#+END_SRC
-If no test is truthy, `None` is returned.
+    if (no star) expressions are built of many if*.
 
-*Also available:*
-- if-not
-- if* (only one conditional test/success pair)
-- lif (Lispy if, False only on None   --   EVEN `False` is Truthy here)
-- lnif
-***** cond
-*cond* creates nested if expressions. For each condition, if *True*, the associated form is evaluated, and if the predicate is *False*, the 'else' action is to move to the next test.
-Evaluation 'short-circuits' at this point, and the cond expression exits.
+    Let's examine its behavior.
 
-(A straightforward macro to write would be *case*, which would test one value against a series of tests.)
-#+NAME: anonymous function in Hy
-#+BEGIN_SRC hy
-;; In Hy
-;; Cond in Hy
-(cond [(< 100 1)   (print "not here")]
-      [(< 100 200) (print "here")]
-      [(< 100 500) (print "Never here")])
-;; Returns "here"
-#+END_SRC
-**** Code blocks
-***** `do`
-*do* can be used to gather a number of forms to be executed as a block, like *progn* in Common Lisp.
+****** Consequent required
+    We do need a consequent ("then") clause.
 
-This is handy for conditionals, for cases in which a true evaluation should trigger a series of expressions to be evaluated.
-#+NAME: DO in Hy
-#+BEGIN_SRC hy
-;; In Hy
-(if foo
-  (do (print 100)
-      (print 200))
-  (do (print 300)
-      (print 400)))
-;; prints 100 and then prints 200
-#+END_SRC
-***** *let*
-A *let* form creates a scope for bindings.  Bindings made inside the *let* form shadow earlier bindings, and are removed when the *let* form is exited.
+    => (if* (= 2 2))
+    Traceback (most recent call last):
+      File "stdin-37b662c5ca9212634557fc101070aa6fe8d8a6eb", line 1, in <module>
+	(if* (= 2 2))
+      File "<stdin>", line 1
+	(if* (= 2 2))
+             ^
+    hy.errors.HySyntaxError: parse error for special form 'if*': no tokens left in the stream: end of form
 
-*Note:* *let* in Hy binds symbol-value pairs *serially*, like *let** in CL.
+****** Explicit alternative not required
+    We do not need an "alternative" expression)
+    => (if* (= 2 2) "Success")
+    'Success'
 
-*Note:* In the current version of Hy, *let* is in a contributed module, so we need to *require* it:
-#+NAME: *let* in Hy
-#+BEGIN_SRC hy
-;; In Hy
-(require [hy.contrib.walk [let]])
+****** Default alternative is *None*
+    If we do not have an alternative, and the predicate is False, None is returned (and not displayed at a REPL)
+    => (if* (= 2 2000) "Success")
 
-(setv foo 3)
+****** Non-None Alternative
+    If we do     have an alternative, and the predicate is False, The alterntive is evaluated and returned.
+    => (if* (= 2 2000) "Success" "Failure")
+    'Failure'
 
-;; let creates a local scope
-(let [foo 5 bar 7]
-  (print (+ foo 100))) ; prints 105
+****** Only one predicate
+    For if*, no second predicate is allowed.
+    => (if* (= 2 2000) "Success" (= 2 2) "Next Success")
+    Traceback (most recent call last):
+      File "stdin-c4b3953ba0845f848a31d2e1cbfe2659d4021178", line 1, in <module>
+	(if* (= 2 2000) "Success" (= 2 2) "Next Success")
+      File "<stdin>", line 1
+	(if* (= 2 2000) "Success" (= 2 2) "Next Success")
+					  ^
+    hy.errors.HySyntaxError: parse error for special form 'if*': should have reached end of form: Next Success
 
-;; We are back out of the scope of the let.
-(print foo) ; prints 3
-#+END_SRC
+***** if
+****** Works with only predicate
 
-**** Interoperabiluty with Python
-***** Python in Hy
-#+NAME: Using (importing) Python in Hy
-#+BEGIN_SRC hy
-;; In Hy
-(import [numpy :as np]
-        [pandas :as pd]
-        [math :as torture])
+    if can take only a predicate.
 
-;; In Hy, the dot is used to divide the module name from the function 
-;; defined within that module.
-(print (torture.cos 2))
-;; prints -0.4161468365471424
+    => (if (= 2 2))
+    True
+    => (if (= 2 2000))
+    False
 
-;; Aternative syntax
-(print (.cos torture 2))
-;; prints -0.4161468365471424
+****** Works with only one pair of predicate and consequent
 
-;; Individual functions
-(import [math [cos]])
-(print (cos 2))
-;; prints -0.4161468365471424
-#+END_SRC
-***** Hy in Python
-#+NAME: Include Hy in Python code
-#+BEGIN_SRC python
-# In Python
-import hy     # do this first
-import my-hy-module as baz
+    if can take a predicate and a consequent
 
-# Some function foo is defined in the module my-hy-module.hy
-zog = baz.foo(bar)
-#+END_SRC
-**** MACROS
-Macros are my favorite part of Lisp. They allow the full power of a Lisp 
-language to be used at compile time to build code to be executed at run time.
+    => (if (= 2 2) "happy")
+    'happy'
 
-The full power of macros is well beyond the scope or time of this talk.
+****** Works with only one set of predicate and consequent and alternative
 
-Two uses of macros that should be of immediately useful:
-***** Extension of syntax of a language
-A great example of this is the implementation of the `walrus` operator, 
-which was only added to Python in 3.8.
+    if can take a predicate and a consequent and an alternative.
 
-The walrus operator, *:=*, both assigns a value to a variable, and returns that value.
+    => (if (= 2 2000) "happy" "sad")
+    'sad'
 
-#+NAME: Assignment returns None in Python
-#+BEGIN_SRC python
-# In Python
-foo = 3
-#returns 'None'
+****** Works with a series of predicate / consequent pairs
+    if can take a series of predicate/consequent pairs
 
-(foo := 3)
-# both sets foo to 3, and returns the value 3 for use in surrounding code.
-#+END_SRC
+    => (if (= 2 2000) "happy" (= 2 2) "still happy")
+    'still happy'
 
-This is trivially achieved in Hy.
-#+NAME: walrus operator in Hy
-#+BEGIN_SRC hy
-;; In Hy
-(defmacro walrus [symb val]
-  `(setv ~symb ~val)
-   symb)
-#+END_SRC
+    if will return None if all predicates return False (unless there is another Elsy expression)
 
-then, in python
-#+NAME: Assignment returns None in Python
-#+BEGIN_SRC python
-# In Python
-from my-module import walrus
+    => (if (= 2 2000) "happy" (= 2 200) "still happy")
+    =>
+    ;; None was returned and not displayed at the REPL
 
-print(f"The value is {walrus(foo 3)}.")
-print(f"I said, {foo}!")
-#+END_SRC
-should work.
-***** Parameterize and simplify recurring code 
-In particular, I enjoy parameterizing creation of construction of Class definitions.
+    => (if (= 2 2000) "happy" (= 2 200) "still happy" "Elsy")
+    'Elsy'
 
-(defmacro 
+***** lif (Lispy if)
 
-**** Functionalism
-Hy is indeed a real Lisp (a Lisp-1 for those counting), and can be used in functional style.
-The three classic higher-order functions:
-***** Map
-*map* applies one function to each element of an iterable data structure.
+    lif is evaluated like if is evaluated in Common Lisp.
 
-#+NAME: *map* in Hy
-#+BEGIN_SRC hy
-;; In Hy
-;; Sample function to use in map
-(defn foofun [x]
-  (+ x 100))
+    lif only returns the alternative (second expression after predicate), if the predicate evaluates to None. In Lisps, *any* value other than nil (the None of Lispworld), *even False*, is treated as Truthy.
 
-;; This maps the function `foofun` across `xs`
-;; and returns a *map* object.
-(defn foomap [xs]
-  (map foofun xs))
+    => (lif True "true" "false")
+    'true'
+    => (lif False "true" "false")
+    'true'
+    => (lif 0 "true" "false")
+    'true'
+    => (lif None "true" "false")
+    'false'
 
-;; *list* can create a list from a *map* object.
-(list (foomap [23 24 25]))
-#+END_SRC
-***** Filter
-#+NAME: *filter* in Hy
-#+BEGIN_SRC hy
-;; In Hy
-;; Simple function to use in filter.
-(defn fizzy? [x]
-  (zero? (% x 3)))
+    #+NAME: function with parameter and a for loop
+    #+BEGIN_SRC hy
+    ;; In Hy
+    (setv foo True)
+    (setv bar 0)
 
-;; Returns a list of xs that are fizzy.
-(defn fizzies [xs]
-  (list (filter fizzy? xs)))
-#+END_SRC
-***** Reduce
-#+NAME: *reducer* in Hy
-#+BEGIN_SRC hy
-;; In Hy
-;; Returns the total fizziness of a list of numbers.
-;; parameters are function, applicands, initial.
-(defn fizziness [xs]
-  (reduce + (fizzies xs) []))
-#+END_SRC
-**** Interopability with Python
-The files
-- test-interop.hy
-- hytest.py
-show 
-- Inclusion of Python modules in Hy code
-- Inclusion of Hy modules in Python code
+    ;; Since bar = 0, which in Python is 'Falsy', the first *test/do* clause fill be bypassed.
+    ;; Since *foo* is *True*, the second do clause will be accepted.
+
+    ;; Per https://docs.hylang.org/en/stable/language/api.html?highlight=if#if-if-if-not
+    ;; "if takes any number of alternating test and then expressions, plus an optional else 
+    ;; expression at the end, which defaults to None."
+    ;; This is unlike if in Common Lisp 
+    (if bar "first one" 
+	foo  "second one")
+
+    (if False "nope"
+	False "nuh-uh"
+	"oh OK")
+
+    ;; if* operates like if in Common Lisp
+    => (if* (= 2 2) "Match")
+    'Match'
+    => (if* (= 2 3) "Match")
+    => ;; None was returned
+    => (if* (= 2 3) "Match" "Miss")
+    'Miss'
+
+
+    ;; returns "second one"
+    #+END_SRC
+    If no test is truthy, `None` is returned.
+
+    *Also available:*
+    - if-not
+    - if* (only one conditional test/success pair)
+    - lif (Lispy if, False only on None   --   EVEN `False` is Truthy here)
+    - lnif
+********* cond
+    *cond* creates nested if expressions. For each condition, if *True*, the associated form is evaluated, and if the predicate is *False*, the 'else' action is to move to the next test.
+    Evaluation 'short-circuits' at this point, and the cond expression exits.
+
+    (A straightforward macro to write would be *case*, which would test one value against a series of tests.)
+    #+NAME: anonymous function in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    ;; Cond in Hy
+    (cond [(< 100 1)   (print "not here")]
+	  [(< 100 200) (print "here")]
+	  [(< 100 500) (print "Never here")])
+    ;; Returns "here"
+    #+END_SRC
+******** Code blocks
+********* `do`
+    *do* can be used to gather a number of forms to be executed as a block, like *progn* in Common Lisp.
+
+    This is handy for conditionals, for cases in which a true evaluation should trigger a series of expressions to be evaluated.
+    #+NAME: DO in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    (if foo
+      (do (print 100)
+	  (print 200))
+      (do (print 300)
+	  (print 400)))
+    ;; prints 100 and then prints 200
+    #+END_SRC
+********* *let*
+    A *let* form creates a scope for bindings.  Bindings made inside the *let* form shadow earlier bindings, and are removed when the *let* form is exited.
+
+    *Note:* let in Hy binds symbol-value pairs *serially*, like let* in CL.
+
+    *Note:* In the current version of Hy, let is in a contributed module, so we need to *require* it:
+    #+NAME: *let* in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    (require [hy.contrib.walk [let]])
+
+    (setv foo 3)
+
+    ;; let creates a local scope
+    (let [foo 5 bar 7]
+      (print (+ foo 100))) ; prints 105
+
+    ;; We are back out of the scope of the let.
+    (print foo) ; prints 3
+    #+END_SRC
+
+******** Interoperabiluty with Python
+********* Python in Hy
+    #+NAME: Using (importing) Python in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    (import [numpy :as np]
+            [pandas :as pd]
+            [math :as torture])
+
+    ;; In Hy, the dot is used to divide the module name from the function 
+    ;; defined within that module.
+    (print (torture.cos 2))
+    ;; prints -0.4161468365471424
+
+    ;; Aternative syntax
+    (print (.cos torture 2))
+    ;; prints -0.4161468365471424
+
+    ;; Individual functions
+    (import [math [cos sin]])
+    (print (cos 2))
+    ;; prints -0.4161468365471424
+    #+END_SRC
+********* Hy in Python
+    #+NAME: Include Hy in Python code
+    #+BEGIN_SRC python
+    # In Python
+    import hy     # do this first
+    import my-hy-module as baz
+
+    # Some function foo is defined in the module my-hy-module.hy
+    zog = baz.foo(bar)
+
+    #+END_SRC
+
+******** MACROS
+    Macros are my favorite part of Lisp. They allow the full power of a Lisp 
+    language to be used at compile time to build code to be executed at run time.
+
+    The full power of macros is well beyond the scope or time of this talk.
+
+    Two uses of macros that should be of immediately useful:
+********* Extension of syntax of a language
+    A great example of this is the implementation of the `walrus` operator, 
+    which was only added to Python in 3.8.
+
+    The walrus operator,  :=   both assigns a value to a variable, and returns that value.
+
+    #+NAME: Assignment returns None in Python
+    #+BEGIN_SRC python
+    # In Python
+    foo = 3
+    #returns 'None'
+
+    (foo := 3)
+    # both sets foo to 3, and returns the value 3 for use in surrounding code.
+    #+END_SRC
+
+    This is trivially achieved in Hy.
+    #+NAME: walrus operator in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+
+    (defmacro walrus [symb val]
+      `(setv ~symb ~val)
+       symb)
+
+    #+END_SRC
+
+    then, in python
+    #+NAME: Assignment returns None in Python
+    #+BEGIN_SRC python
+    # In Python
+    from my-module import walrus
+
+    print(f"The value is {walrus(foo 3)}.")
+    print(f"I said, {foo}!")
+    #+END_SRC
+    should work.
+********* Parameterize and simplify recurring code 
+    In particular, I enjoy parameterizing creation of construction of Class definitions.
+
+    (defmacro 
+
+******** Functionalism
+    Hy is indeed a real Lisp (a Lisp-1 for those counting), and can be used in functional style.
+    The three classic higher-order functions:
+********* Map
+    *map* applies one function to each element of an iterable data structure.
+
+    #+NAME: *map* in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    ;; Sample function to use in map
+    (defn foofun [x]
+      (+ x 100))
+
+    ;; This maps the function `foofun` across `xs`
+    ;; and returns a *map* object.
+    (defn foomap [xs]
+      (map foofun xs))
+
+    ;; *list* can create a list from a *map* object.
+    (list (foomap [23 24 25]))
+    #+END_SRC
+********* Filter
+    #+NAME: *filter* in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    ;; Simple function to use in filter.
+    (defn fizzy? [x]
+      (zero? (% x 3)))
+
+    ;; Returns a list of xs that are fizzy.
+    (defn fizzies [xs]
+      (list (filter fizzy? xs)))
+    #+END_SRC
+********* Reduce
+    #+NAME: *reducer* in Hy
+    #+BEGIN_SRC hy
+    ;; In Hy
+    ;; Returns the total fizziness of a list of numbers.
+    ;; parameters are function, applicands, initial.
+    (defn fizziness [xs]
+      (reduce + (fizzies xs)))
+    #+END_SRC
+******** Interopability with Python
+    The files
+    - test-interop.hy
+    - hytest.py
+    show 
+    - Inclusion of Python modules in Hy code
+    - Inclusion of Hy modules in Python code
 
 * In Summary:
 We have discussed, and used relevant code, regarding:
@@ -462,11 +589,11 @@ We have discussed, and used relevant code, regarding:
 * Further 
 Hy has been around since 2012, and has more that could be demonstrated in this talk.
 - the threader macros
-  - *->* takes a series of expressions and
+  - -> takes a series of expressions and
     - evaluates one
     - feeds the evaluation of the that one  as the first parameter value to the next
     - returns the output of the last.
-  - *->>* is like ->, but feeds the output of each as the *last* parameter value to the next
+  - ->> is like ->, but feeds the output of each as the *last* parameter value to the next
 - tag macros
 Tag macros are a way to make syntactic sugar. Single-input macros can be associated with any one character,
 and called without any enclosing parentheses.
